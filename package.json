@@ -1,0 +1,26 @@
+{
+  "name": "lapaz_app_backend",
+  "version": "1.0.0",
+  "description": "backend de app laPaz\u001b[D\u001b[D\u001b[D\u001b[L",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "delivery",
+    "nodejs",
+    "buy",
+    "reserve"
+  ],
+  "author": "Jesús Cirineo",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "http": "*",
+    "morgan": "^1.10.0",
+    "pg-promise": "^10.11.1"
+  }
+}
