@@ -7,6 +7,45 @@ User.getAll = () => {
   return db.manyOrNone(sql);
 };
 
+User.findById = (id, callback) => {
+  const sql = `SELECT
+	id,
+	email,
+	name,
+	lastname,
+	image,
+	phone,
+	password,
+	session_token
+FROM
+	users
+WHERE
+	id= $1`;
+
+  return db.oneOrNone(sql, id).then((user) => {
+    callback(null, user);
+  });
+};
+
+User.findByEmail = (email) => {
+  const sql = `
+  SELECT
+	id,
+	email,
+	name,
+	lastname,
+	image,
+	phone,
+	password,
+	session_token
+FROM
+	users
+WHERE
+	email= $1
+  `;
+  return db.oneOrNone(sql, email);
+};
+
 User.create = (user) => {
   const myPasswordHashed = crypto
     .createHash('md5')
@@ -38,6 +77,17 @@ User.create = (user) => {
     new Date(),
     new Date(),
   ]);
+};
+
+User.isPasswordMatched = (userPassword, hash) => {
+  const myPasswordHashed = crypto
+    .createHash('md5')
+    .update(userPassword)
+    .digest('hex');
+  if (myPasswordHashed === hash) {
+    return true;
+  }
+  return false;
 };
 
 module.exports = User;
