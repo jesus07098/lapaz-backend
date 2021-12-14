@@ -7,6 +7,7 @@ const cors = require('cors');
 const multer = require('multer');
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
+const passport = require('passport');
 
 /*
  * INICIALIZAR FIREBASE ADMIN
@@ -23,6 +24,8 @@ const upload = multer({
  * RUTAS
  */
 const users = require('./routes/userRoutes');
+const categories = require('./routes/categoriesRoutes');
+const products = require('./routes/productsRoutes');
 
 const port = process.env.PORT || 3000;
 app.set('port', port);
@@ -36,6 +39,9 @@ app.use(
 );
 
 app.use(cors());
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 app.disable('x-powered-by');
 
@@ -43,6 +49,8 @@ app.disable('x-powered-by');
  * LLAMANDO A LAS RUTAS
  */
 users(app, upload);
+categories(app);
+products(app, upload);
 
 server.listen(3000, '192.40.0.60' || 'localhost', function () {
   console.log('Aplicacion de NodeJS ' + process.pid + ' Iniciada...');

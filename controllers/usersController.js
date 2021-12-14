@@ -180,4 +180,22 @@ module.exports = {
       });
     }
   },
+
+  async logout(req, res, next) {
+    try {
+      const id = req.body.id;
+      await User.updateToken(id, null);
+      return res.status(201).json({
+        success: true,
+        message: 'La sesión del usuario se ha cerrado correctamente',
+      });
+    } catch (e) {
+      console.log(`Error: ${error}`);
+      return res.status(501).json({
+        success: false,
+        message: 'Error al momento de cerrar sesión',
+        error: error,
+      });
+    }
+  },
 };

@@ -1,9 +1,14 @@
 const UsersController = require('../controllers/usersController');
+const passport = require('passport');
 
 module.exports = (app, upload) => {
   //TRAER DATOS
   app.get('/api/users/getAll', UsersController.getAll);
-  app.get('/api/users/findById/:id', UsersController.findById);
+  app.get(
+    '/api/users/findById/:id',
+    passport.authenticate('jwt', { session: false }),
+    UsersController.findById
+  );
 
   //GUARDAR DATOS USUARIO
   app.post(
@@ -11,6 +16,7 @@ module.exports = (app, upload) => {
     upload.array('image', 1),
     UsersController.registerWithImage
   );
+  app.post('/api/users/logout', UsersController.logout);
 
   //LOGIN
   app.post('/api/users/login', UsersController.login);
@@ -18,6 +24,7 @@ module.exports = (app, upload) => {
   //ACTUALIZAR DATOS
   app.put(
     '/api/users/update',
+    passport.authenticate('jwt', { session: false }),
     upload.array('image', 1),
     UsersController.update
   );
